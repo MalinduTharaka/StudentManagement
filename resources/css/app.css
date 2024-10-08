@@ -1,0 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+[x-cloak] {
+    display: none;
+}
+
+.mobile-menu {
+    transform: translateX(-100%); /* Initially hide the menu off the left side */
+    transition: transform 0.3s ease-in-out;
+}
+
+.mobile-menu-open {
+    transform: translateX(0); /* When open, position the menu normally */
+}
+
+.mobile-menu-close {
+    transform: translateX(-100%); /* Close the menu by moving it off the left side */
+}
+
