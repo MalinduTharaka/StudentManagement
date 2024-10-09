@@ -35,6 +35,10 @@
                             <a href="{{ route('courses.available') }}" class="block text-gray-700 hover:bg-gray-200 px-3 py-2 rounded-md">Available Courses</a>
                         @endif
 
+                        @if(Auth::user()->role == 'admin' || Auth::user()->role == 'staff')
+                        <a href="{{ route('enroll.requests') }}" class="block text-gray-700 hover:bg-gray-200 px-3 py-2 rounded-md">Enroll Requests</a>
+                        @endif
+
                         <a href="#" class="block text-gray-700 hover:bg-gray-200 px-3 py-2 rounded-md">Profile</a>
                         <a href="#" class="block text-gray-700 hover:bg-gray-200 px-3 py-2 rounded-md">Settings</a>
 

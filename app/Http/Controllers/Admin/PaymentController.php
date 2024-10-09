@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Course;
 use Illuminate\Http\Request;
+use App\Models\Payment;
+use Illuminate\Support\Facades\Auth;
 
 class PaymentController extends Controller
 {
@@ -31,12 +33,15 @@ class PaymentController extends Controller
 
         // Handle the uploaded payment slip
         if ($request->hasFile('payment_slip')) {
-            $paymentSlip = $request->file('payment_slip')->store('payment_slips', 'public');
-        }
+            // Generate a unique file name using time and the original file name
+            $filename = time() . '_' . $request->file('payment_slip')->getClientOriginalName();
+            $paymentSlip = $request->file('payment_slip')->storeAs('payment_slips', $filename, 'public');
+
+        }       
 
         // Save the payment information
         Payment::create([
-            'user_id' => auth()->id(),
+            'user_id' => Auth::id(),
             'course_id' => $courseId,
             'payment_slip' => $paymentSlip,
             'installment' => $request->installment === 'yes',
@@ -47,5 +52,32 @@ class PaymentController extends Controller
 
         // Redirect to a success or confirmation page
         return redirect()->route('courses.available')->with('success', 'Payment submitted successfully. Your enrollment is pending approval.');
+    }
+
+    public function index()
+    {
+        $payments = Payment::with(['course', 'user'])->get();
+        return view('admin.enrollrequests', compact('payments'));
+    }
+
+    // Add methods for approve and deny actions
+    public function approve($id)
+    {
+        $payment = Payment::findOrFail($id);
+        // Logic to approve the payment
+        $payment->status = 'approved'; // Example status update
+        $payment->save();
+
+        return redirect()->route('enroll.requests')->with('success', 'Enrollment approved.');
+    }
+
+    public function deny($id)
+    {
+        $payment = Payment::findOrFail($id);
+        // Logic to deny the payment
+        $payment->status = 'failed'; // Example status update
+        $payment->save();
+
+        return redirect()->route('enroll.requests')->with('error', 'Enrollment denied.');
     }
 }

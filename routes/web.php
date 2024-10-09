@@ -65,7 +65,9 @@ Route::middleware(['auth', 'checkSuspended'])->group(function () {
         Route::get('courses/{id}/enroll', [App\Http\Controllers\Admin\CourseController::class, 'enroll'])->name('courses.enroll');
         Route::post('courses/{id}/payment', [App\Http\Controllers\Admin\CourseController::class, 'storePayment'])->name('courses.storePayment');
 
-
+        Route::get('/enroll-requests', [App\Http\Controllers\Admin\PaymentController::class, 'index'])->name('enroll.requests');
+        Route::post('/enroll-approve/{id}', [App\Http\Controllers\Admin\PaymentController::class, 'approve'])->name('enroll.approve');
+        Route::post('/enroll-deny/{id}', [App\Http\Controllers\Admin\PaymentController::class, 'deny'])->name('enroll.deny');
 
 
 

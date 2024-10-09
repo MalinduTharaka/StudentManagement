@@ -69,7 +69,7 @@
                         <div id="bank-draft-fields" class="hidden">
                             <div class="mb-4">
                                 <label class="block text-gray-700 text-sm font-bold mb-2">Upload Bank Payment Slip</label>
-                                <input type="file" name="payment_slip" class="form-input w-full" accept="image/*" required>
+                                <input type="file" name="payment_slip" class="form-input w-full" required>
                             </div>
                             <div class="mb-4">
                                 <button type="submit" class="btn btn-primary">Submit Payment</button>
