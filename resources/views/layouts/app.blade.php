@@ -39,6 +39,8 @@
                         <a href="{{ route('enroll.requests') }}" class="block text-gray-700 hover:bg-gray-200 px-3 py-2 rounded-md">Enroll Requests</a>
                         @endif
 
+                        <a href="#" class="block text-gray-700 hover:bg-gray-200 px-3 py-2 rounded-md">My Courses</a>
+
                         <a href="#" class="block text-gray-700 hover:bg-gray-200 px-3 py-2 rounded-md">Profile</a>
                         <a href="#" class="block text-gray-700 hover:bg-gray-200 px-3 py-2 rounded-md">Settings</a>
 

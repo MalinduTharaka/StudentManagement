@@ -21,6 +21,7 @@ class PaymentController extends Controller
     }
 
     // Process the payment
+    // Process the payment
     public function process(Request $request, $courseId)
     {
         // Validate the form data
@@ -33,11 +34,8 @@ class PaymentController extends Controller
 
         // Handle the uploaded payment slip
         if ($request->hasFile('payment_slip')) {
-            // Generate a unique file name using time and the original file name
-            $filename = time() . '_' . $request->file('payment_slip')->getClientOriginalName();
-            $paymentSlip = $request->file('payment_slip')->storeAs('payment_slips', $filename, 'public');
-
-        }       
+            $paymentSlip = $request->file('payment_slip')->store('payment_slips', 'public');
+        }
 
         // Save the payment information
         Payment::create([

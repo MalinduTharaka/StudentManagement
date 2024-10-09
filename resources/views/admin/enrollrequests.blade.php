@@ -32,7 +32,7 @@
                         View
                     </button>
                 </td>
-                <td class="px-4 py-2">
+                <td class="px-4 py-2 ">
                     <form action="{{ route('enroll.approve', $payment->id) }}" method="POST">
                         @csrf
                         <button type="submit" class="btn btn-info">Approve</button>

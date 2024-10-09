@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Models\Enrollment;
 use App\Models\Payment;
+use Illuminate\Support\Facades\Auth;
 
 class CourseController extends Controller
 {
@@ -134,7 +135,7 @@ class CourseController extends Controller
     public function enroll($id)
     {
         $course = Course::findOrFail($id);
-    $user = auth()->user(); // Fetch the authenticated user
+    $user = Auth::user(); // Fetch the authenticated user
 
     return view('courses.enroll', compact('course', 'user'));
         // $course = Course::findOrFail($id);
@@ -150,15 +151,15 @@ class CourseController extends Controller
             'payment_option' => 'required',
             'payment_method' => 'required_if:payment_option,full_payment',
             'installment_payment_method' => 'required_if:payment_option,installment',
-            'payment_slip' => 'nullable|file|image|max:2048',
-            'installment_payment_slip' => 'nullable|file|image|max:2048',
+            'payment_slip' => 'nullable|file|image',
+            'installment_payment_slip' => 'nullable|file|image',
         ]);
 
         $course = Course::findOrFail($id);
 
         $payment = new Payment();
         $payment->course_id = $course->id;
-        $payment->user_id = auth()->id();
+        $payment->user_id = Auth::id();
 
         // Set the payment amount based on option
         if ($request->payment_option == 'full_payment') {
@@ -166,7 +167,7 @@ class CourseController extends Controller
             $payment->payment_method = $request->payment_method; // Set payment method
             if ($request->payment_method == 'bank_draft') {
                 if ($request->hasFile('payment_slip')) {
-                    $payment->payment_slip = $request->file('payment_slip')->store('payment_slips');
+                    $payment->payment_slip = $request->file('payment_slip')->store('payment_slips','public');
                 }
             }
         } elseif ($request->payment_option == 'installment') {
